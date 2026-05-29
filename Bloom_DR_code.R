@@ -1,8 +1,17 @@
-setwd("~/desktop/FINAL_LEGIT")
+
+### INSTALL DISTURBANCE RECOVERY ALGORITHM PACKAGE
+# library(remotes)
+# #remotes::install_github("jonathan-walter/disturbhf")
+
+
+library(dplyr)
+library(lubridate)
+library(ggplot2)
+library(disturbhf)
 
 
 ## EXPERIMENTAL LAKES
-dat <- read.csv("Experimental_lakes_chl.csv")
+dat <- read.csv("desktop/Bloom_DR/Experimental_lakes_chl.csv")
 
 dat$Year <- as.factor(dat$Year)
 dat$Date <- as.Date(dat$DOYtrunc - 1, origin = paste0(dat$Year, "-01-01"))
@@ -239,11 +248,13 @@ for (i in 1:100){
 
 
 
-test_lakes <- read.csv("Monitored_Lakes_Chlorophyll.csv")
 
 ### CHLOROPHYLL FOR MONITORED LAKES
 
 ### comment out filter command in ref data depending on what method you want to use
+
+test_lakes <- read.csv("~/desktop/Bloom_DR/Monitored_Lakes_Chlorophyll.csv")
+
 
 chla <- data.frame(matrix(ncol = 6, nrow = 0))
 colnames(chla) <- c("Lake", "dist.date", "recov.date", "Year", "peak.z", "peak.date")
@@ -299,7 +310,9 @@ for (lake_name in unique(test_lakes$Lake)) {
 
 ### PHYCOCYANIN FOR MONITORED LAKES
 
-test_lakes <- read.csv("Monitored_Lakes_Phycocyanin.csv")
+### comment out filter command in ref data depending on what method you want to use
+
+test_lakes <- read.csv("~/desktop/Bloom_DR/Monitored_Lakes_Phycocyanin.csv")
 phyco <- NULL
 for (lake_name in unique(test_lakes$Lake)) {
   
@@ -350,6 +363,14 @@ for (lake_name in unique(test_lakes$Lake)) {
 }
 
 
+
+
+### BOXPLOT PLOTS
+
+
+### csv below is a combination of chlorophyll and phycocyanin disturbances detected by the algorithm using the 
+### reference subset method
+final <- read.csv("~/desktop/Bloom_DR/FINAL_DISTURBANCES_zsubset.csv")
 
 
 final <- final %>%
